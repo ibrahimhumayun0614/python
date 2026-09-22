@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Convert & Rename</title>
-    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="app">
       <header class="brand">
         <h1>Image Convert & Rename</h1>
-        <p>Convert images first, then optionally rename them in sequence.</p>
+        <p>Runs fully in your browser — convert, rename, download. Nothing is uploaded.</p>
       </header>
 
       <nav class="steps" aria-label="Progress">
@@ -31,22 +31,21 @@
       <div id="alert" class="alert hidden" role="alert"></div>
 
       <section class="card">
-        <!-- Step 1: Upload + Convert -->
         <div class="panel active" data-step="1">
           <div class="card-header">
             <h2>Convert images</h2>
-            <p>Upload images and choose the output format.</p>
+            <p>Choose images and an output format. Processing stays in browser memory.</p>
           </div>
           <div class="card-body">
             <div id="dropzone" class="dropzone" role="button" tabindex="0">
               <strong>Drop images here</strong>
-              <span>or click to browse · PNG, JPG, WEBP, BMP, GIF, TIFF</span>
+              <span>or click to browse · PNG, JPG, WEBP, BMP, GIF</span>
             </div>
             <input
               id="file-input"
               class="file-input"
               type="file"
-              accept="image/png,image/jpeg,image/webp,image/bmp,image/gif,image/tiff"
+              accept="image/png,image/jpeg,image/webp,image/bmp,image/gif"
               multiple
             />
             <div id="file-list" class="file-list"></div>
@@ -59,7 +58,7 @@
                 <option value="webp">WEBP</option>
                 <option value="bmp">BMP</option>
               </select>
-              <p class="hint">JPG uses quality 90. Transparent images get a white background.</p>
+              <p class="hint">JPG / WEBP quality 90. Transparent images get a white background for JPG/BMP.</p>
             </div>
 
             <div id="progress-panel" class="progress-panel hidden" aria-live="polite">
@@ -67,7 +66,13 @@
                 <span id="progress-label">Converting 0 of 0</span>
                 <span id="progress-eta">Estimating…</span>
               </div>
-              <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div
+                class="progress-track"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+              >
                 <div id="progress-bar" class="progress-bar"></div>
               </div>
               <p id="progress-current" class="hint">Preparing…</p>
@@ -81,7 +86,6 @@
           </div>
         </div>
 
-        <!-- Step 2: Ask rename -->
         <div class="panel" data-step="2">
           <div class="card-header">
             <h2>Rename converted files?</h2>
@@ -101,7 +105,6 @@
           </div>
         </div>
 
-        <!-- Step 3: Pattern -->
         <div class="panel" data-step="3">
           <div class="card-header">
             <h2>Rename pattern</h2>
@@ -118,7 +121,9 @@
                 placeholder="001 or abc_001"
                 autocomplete="off"
               />
-              <p class="hint">Examples: <code>001</code> → 001, 002… · <code>abc_001</code> → abc_001, abc_002…</p>
+              <p class="hint">
+                Examples: <code>001</code> → 001, 002… · <code>abc_001</code> → abc_001, abc_002…
+              </p>
             </div>
 
             <div class="field">
@@ -129,9 +134,7 @@
             </div>
 
             <div class="actions">
-              <button id="btn-back-convert" class="btn btn-secondary" type="button">
-                Back
-              </button>
+              <button id="btn-back-convert" class="btn btn-secondary" type="button">Back</button>
               <button id="btn-apply-rename" class="btn btn-primary" type="button">
                 Apply rename
               </button>
@@ -139,15 +142,14 @@
           </div>
         </div>
 
-        <!-- Step 4: Download -->
         <div class="panel" data-step="4">
           <div class="card-header">
             <h2 id="done-title">Ready to download</h2>
             <p id="done-message">Your files are ready.</p>
           </div>
           <div class="card-body">
-            <div class="alert alert-success">
-              Files are prepared as a ZIP archive for download.
+            <div id="download-note" class="alert alert-success">
+              Download a ZIP from browser memory. Nothing was stored on a server.
             </div>
             <div class="actions">
               <button id="btn-download" class="btn btn-primary" type="button">
@@ -162,6 +164,7 @@
       </section>
     </div>
 
-    <script src="/static/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="./app.js"></script>
   </body>
 </html>

@@ -1,24 +1,20 @@
 @echo off
-cd /d "%~dp0"
+cd /d "%~dp0public"
+echo.
+echo Serving browser app at http://127.0.0.1:8080
+echo Press Ctrl+C to stop.
+echo.
 
 set "PY=C:\Users\mohamed.ibrahim\AppData\Local\Programs\Python\Python314\python.exe"
-if not exist "%PY%" (
+if exist "%PY%" (
+  "%PY%" -m http.server 8080
+) else (
   where python >nul 2>&1
   if errorlevel 1 (
-    echo Python was not found.
+    echo Python not found. Open public\index.html in your browser instead.
+    start "" "%~dp0public\index.html"
     pause
     exit /b 1
   )
-  set "PY=python"
+  python -m http.server 8080
 )
-
-if not exist .venv (
-  "%PY%" -m venv .venv
-)
-
-call .venv\Scripts\activate.bat
-python -m pip install -r requirements.txt
-echo.
-echo Starting server at http://127.0.0.1:8000
-echo.
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000

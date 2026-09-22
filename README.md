@@ -1,43 +1,52 @@
-# Image Convert & Rename
+# Image Convert & Rename (browser-only)
 
-Personal image converter and sequential file renamer.
+Convert and rename images **entirely in your browser**. Nothing is uploaded to a server.
 
 ## Features
 
-1. Upload images (PNG, JPG, WEBP, BMP, GIF, TIFF)
-2. Convert to JPG / PNG / WEBP / BMP
-3. Optionally rename with a sequence pattern (`001`, `abc_001`, …)
-4. Download results as a ZIP
+1. Select images (PNG, JPG, WEBP, BMP, GIF)
+2. Convert to JPG / PNG / WEBP / BMP (progress + ETA)
+3. Optionally rename with a sequence (`001`, `abc_001`, …)
+4. Download a ZIP from memory, then clear converted blobs
 
-## Setup
+## Run locally
 
-```bash
-cd python
-python -m venv .venv
-
-# Windows
-.venv\Scripts\activate
-
-# macOS / Linux
-# source .venv/bin/activate
-
-pip install -r requirements.txt
-```
-
-## Run
-
-From the project root (`python/`):
+Double-click `run.bat`, or:
 
 ```bash
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+cd public
+# any static server, e.g. Python:
+python -m http.server 8080
 ```
 
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000)
+Open http://127.0.0.1:8080
 
-## Rename patterns
+Or open `public/index.html` directly in a browser (some browsers restrict modules/CDN less freely via `file://`; a local server is preferred).
 
-| Pattern   | Result              |
-|-----------|---------------------|
-| `001`     | `001.jpg`, `002.jpg` |
-| `abc_001` | `abc_001.jpg`, `abc_002.jpg` |
-| `photo_01`| `photo_01.webp`, `photo_02.webp` |
+## Deploy to Cloudflare Pages
+
+**Dashboard**
+
+1. Connect this repo
+2. Build command: *(leave empty)* or `echo ok`
+3. Build output directory: `public`
+4. Deploy
+
+**CLI**
+
+```bash
+npx wrangler pages deploy public
+```
+
+`wrangler.toml` sets `pages_build_output_dir = "public"`.
+
+## Project layout
+
+```
+public/
+  index.html
+  styles.css
+  app.js
+wrangler.toml
+run.bat
+```
